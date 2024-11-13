@@ -34,7 +34,7 @@ const getModel = async (dbName, collectionName) => {
         const connection = await getConnection(dbName);
 
         // Create a dynamic schema that accepts any fields
-        const dynamicSchema = new mongoose.Schema({}, { strict: false });
+        const dynamicSchema = new mongoose.Schema({}, { strict: false, versionKey: false });
 
         models[modelKey] = connection.model(
             collectionName,
@@ -50,7 +50,6 @@ const getModel = async (dbName, collectionName) => {
 app.get("/find/:database/:collection", async (req, res) => {
     try {
         const { database, collection } = req.params;
-
         const Model = await getModel(database, collection);
 
         const documents = await Model.find({});
@@ -59,6 +58,35 @@ app.get("/find/:database/:collection", async (req, res) => {
         return res.status(200).json(documents);
     } catch (error) {
         console.error(`Error in GET route:`, error);
+        return res.status(500).json({ error: error.message });
+    }
+});
+
+app.post("/insert/:database/:collection", async (req, res) => {
+    try {
+        const { database, collection } = req.params;
+        const { document } = req.body;
+        const Model = await getModel(database, collection);
+
+        Model.create(document).then((doc) => {
+            console.log(doc);
+            console.log("Document inserted");
+        }).catch(err => console.error(err.message));
+    } catch (error) {
+        console.error(`Error in POST route:`, error);
+        return res.status(500).json({ error: error.message });
+    }
+});
+
+app.delete("/delete/:database/:collection/:id", async (req, res) => {
+    try {
+        const { database, collection, id } = req.params;
+        const Model = await getModel(database, collection);
+
+        const document = await Model.findById(id);
+        await Model.deleteOne(document);
+    } catch (error) {
+        console.error(`Error in DELETE route:`, error);
         return res.status(500).json({ error: error.message });
     }
 });
