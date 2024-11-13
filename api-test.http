@@ -22,3 +22,9 @@ Content-Type: application/json
 @id = 6733eba73c900370158f6991
 DELETE {{domain}}:{{port}}/delete/{{database}}/{{collection}}/{{id}}
 Content-Type: application/json
+
+
+### Delete a Collection from a Database
+DELETE http://localhost:3000/delete-collection/{{database}}//{{collection}}
+Content-Type: application/json
+
