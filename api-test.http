@@ -2,6 +2,7 @@
 @collection = GroceryInventory
 @domain = http://localhost
 @port = 3000
+@id = 673bc83bfd0a32baafabf9a0
 
 ###
 GET {{domain}}:{{port}}/find/{{database}}/{{collection}}
@@ -12,19 +13,25 @@ POST {{domain}}:{{port}}/insert/{{database}}/{{collection}}
 Content-Type: application/json
 
 {
-    "document": {
-        "item": "test document 2",
-        "quantity": 2000
-    }
+    "item": "cashews",
+    "food_group": "nuts",
+    "price_in_usd": 5,
+}
+
+
+###
+PUT {{domain}}:{{port}}/update/{{database}}/{{collection}}/{{id}}
+Content-Type: application/json
+
+{
+    "item": "coconut"
 }
 
 ###
-@id = 6733eba73c900370158f6991
 DELETE {{domain}}:{{port}}/delete/{{database}}/{{collection}}/{{id}}
 Content-Type: application/json
 
-
 ### Delete a Collection from a Database
-DELETE http://localhost:3000/delete-collection/{{database}}//{{collection}}
+DELETE {{domain}}:{{port}}/delete-collection/{{database}}/{{collection}}
 Content-Type: application/json
 
