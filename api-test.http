@@ -1,8 +1,7 @@
 @database = BigBoxStore
 @collection = GroceryInventory
 @domain = http://localhost
-@port = 3000
-@id = 673bc83bfd0a32baafabf9a0
+@port = 3001
 
 ###
 GET {{domain}}:{{port}}/find/{{database}}/{{collection}}
@@ -13,25 +12,56 @@ POST {{domain}}:{{port}}/insert/{{database}}/{{collection}}
 Content-Type: application/json
 
 {
-    "item": "cashews",
-    "food_group": "nuts",
-    "price_in_usd": 5,
+  "item": "hamburger",
+  "food_group": "proteins",
+  "price_in_usd": 10,
+  "calories_per_100g": 100
 }
 
-
 ###
-PUT {{domain}}:{{port}}/update/{{database}}/{{collection}}/{{id}}
+@put-id=673e61d14ca812dce3d50329
+PUT {{domain}}:{{port}}/update/{{database}}/{{collection}}/{{put-id}}
 Content-Type: application/json
 
 {
-    "item": "coconut"
+  "item": "ground beef",
+  "food_group": "proteins",
+  "price_in_usd": 500
 }
-
 ###
-DELETE {{domain}}:{{port}}/delete/{{database}}/{{collection}}/{{id}}
-Content-Type: application/json
+@delete-id = 673e75b190f44b54dbf58bd5
+DELETE {{domain}}:{{port}}/delete/{{database}}/{{collection}}/{{delete-id}}
 
 ### Delete a Collection from a Database
-DELETE {{domain}}:{{port}}/delete-collection/{{database}}/{{collection}}
+DELETE http://localhost:3000/delete-collection/{{database}}/{{collection}}
 Content-Type: application/json
 
+### Insert Many Documents
+POST {{domain}}:{{port}}/insert-many/{{database}}/{{collection}}
+Content-Type: application/json
+
+[
+    {
+        "item": "orange",
+        "food_group": "fruits",
+        "price_in_usd": 0.3,
+        "quantity": 100,
+        "calories_per_100g": 52
+    },
+    {
+        "item": "asparagus",
+        "food_group": "vegetables",
+        "price_in_usd": 1.1,
+        "quantity": 50,
+        "calories_per_100g": 34,
+        "organic": true
+    },
+    {
+        "item": "rainbow trout",
+        "food_group": "proteins",
+        "price_in_usd": 8.5,
+        "quantity": 20,
+        "calories_per_100g": 208,
+        "wild_caught": true
+    }
+]
